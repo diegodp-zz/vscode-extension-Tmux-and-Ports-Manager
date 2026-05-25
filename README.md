@@ -1,6 +1,8 @@
 # Tmux and Ports Manager
 
-`Tmux and Ports Manager` is a VS Code extension scaffold for browsing and managing local `tmux` sessions from the activity bar.
+`Tmux and Ports Manager` is a VS Code extension for browsing and managing local `tmux` sessions from the activity bar.
+
+Marketplace: https://marketplace.visualstudio.com/items?itemName=DiegoEnnes.tmux-manager-diegoennes
 
 ## Features
 
