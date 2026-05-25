@@ -1,0 +1,160 @@
+{
+  "name": "tmux-manager-diegoennes",
+  "displayName": "Tmux and Ports Manager",
+  "description": "Manage tmux sessions, ports, windows, and panes from the VS Code sidebar.",
+  "version": "0.0.2",
+  "publisher": "DiegoEnnes",
+  "author": "Diego Ennes",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:tmuxSessions",
+    "onCommand:tmuxManager.refresh",
+    "onCommand:tmuxManager.newSession",
+    "onCommand:tmuxManager.newWindow",
+    "onCommand:tmuxManager.attachSession",
+    "onCommand:tmuxManager.previewPane",
+    "onCommand:tmuxManager.killItem"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "tmuxManager",
+      "title": "Tmux & Ports",
+          "icon": "media/tmux.svg"
+        }
+      ]
+    },
+    "views": {
+      "tmuxManager": [
+        {
+          "id": "tmuxSessions",
+          "name": "Sessions",
+          "type": "webview"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "tmuxManager.refresh",
+        "title": "Refresh Sessions",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "tmuxManager.newSession",
+        "title": "New Session",
+        "icon": "$(add)"
+      },
+      {
+        "command": "tmuxManager.newWindow",
+        "title": "New Task",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "tmuxManager.attachSession",
+        "title": "Open in Terminal",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "tmuxManager.previewPane",
+        "title": "Preview Pane Output",
+        "icon": "$(file-text)"
+      },
+      {
+        "command": "tmuxManager.killItem",
+        "title": "Kill",
+        "icon": "$(trash)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "tmuxManager.refresh",
+          "when": "view == tmuxSessions",
+          "group": "navigation@1"
+        },
+        {
+          "command": "tmuxManager.newSession",
+          "when": "view == tmuxSessions",
+          "group": "navigation@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "tmuxManager.attachSession",
+          "when": "view == tmuxSessions && viewItem == session",
+          "group": "inline@1"
+        },
+        {
+          "command": "tmuxManager.newWindow",
+          "when": "view == tmuxSessions && (viewItem == session || viewItem == window)",
+          "group": "inline@2"
+        },
+        {
+          "command": "tmuxManager.previewPane",
+          "when": "view == tmuxSessions && viewItem == pane",
+          "group": "inline@3"
+        },
+        {
+          "command": "tmuxManager.killItem",
+          "when": "view == tmuxSessions && (viewItem == session || viewItem == window || viewItem == pane)",
+          "group": "inline@4"
+        },
+        {
+          "command": "tmuxManager.attachSession",
+          "when": "view == tmuxSessions && viewItem == session",
+          "group": "tmux@1"
+        },
+        {
+          "command": "tmuxManager.newWindow",
+          "when": "view == tmuxSessions && (viewItem == session || viewItem == window)",
+          "group": "tmux@2"
+        },
+        {
+          "command": "tmuxManager.previewPane",
+          "when": "view == tmuxSessions && viewItem == pane",
+          "group": "tmux@3"
+        },
+        {
+          "command": "tmuxManager.killItem",
+          "when": "view == tmuxSessions && (viewItem == session || viewItem == window || viewItem == pane)",
+          "group": "tmux@4"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Tmux and Ports Manager",
+      "properties": {
+        "tmuxManager.captureHistoryLines": {
+          "type": "number",
+          "default": 200,
+          "minimum": 50,
+          "description": "How many lines of pane history to capture for previews."
+        },
+        "tmuxManager.defaultSessionDirectory": {
+          "type": "string",
+          "default": "",
+          "description": "Default working directory for new tmux sessions. Leave empty to use the first workspace folder."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.2.2",
+    "typescript": "^5.5.4"
+  }
+}
